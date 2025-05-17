@@ -1,0 +1,17 @@
+<resources>
+    <style name="Theme.Pasteleria.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/chocolate_oscuro1</item>
+        <item name="colorPrimaryVariant">@color/chocolate_claro1</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/caramelo</item>
+        <item name="colorSecondaryVariant">@color/fresa</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:windowBackground">@color/fondo_pasteleria</item>
+        <item name="colorOnBackground">@color/black</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorError">@color/rosa_candy</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pastry Shop</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">144192975470-5io912gqrcneitl5vt575qtn9o1abfm2.apps.googleusercontent.com</string>
+
+    <string name="inicio_sesion">Login</string>
+    <string name="correo_hint">Email</string>
+    <string name="contrasena_hint">Password</string>
+    <string name="iniciar_sesion">Log in</string>
+    <string name="google_sign_in">Sign in with Google</string>
+    <string name="no_tienes_cuenta">Dont have an account?</string>
+    <string name="registrar_hint">click here</string>
+    <string name="hint_repeat_password">Repeat password</string>
+    <string name="register">Register</string>
+    <string name="click_here">click here</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_birth_date">Birthdate</string>
+    <string name="hint_email">Email</string>
+    <string name="welcome_message">Welcome!</string>
+    <string name="total">Total:</string>
+    <string name="continuar">Continue</string>
+    <string name="modo_oscuro">Dark Mode</string>
+    <string name="nombre">Name</string>
+    <string name="cerrar_sesion">Log out</string>
+    <string name="stock_available">Available</string>
+    <string name="search_hint">Search product</string>
+    <string name="total_items">TextVi</string>
+    <string name="price">Price</string>
+    <string name="menu_main_fragment">Home</string>
+    <string name="menu_map_fragment">Find Us</string>
+    <string name="menu_items_fragment">Catalog</string>
+    <string-array name="idiomas">
+        <item>Spanish</item>
+        <item>English</item>
+    </string-array>
+</resources>

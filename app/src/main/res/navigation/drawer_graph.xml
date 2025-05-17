@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.pasteleria.main.view.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/itemsFragment"
+        android:name="com.example.pasteleria.main.view.ItemsFragment"
+        android:label="fragment_items"
+        tools:layout="@layout/fragment_items" >
+        <action
+            android:id="@+id/action_itemsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_itemsFragment_to_carritoFragment"
+            app:destination="@id/carritoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.pasteleria.main.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.pasteleria.main.view.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.pasteleria.main.view.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/carritoFragment"
+        android:name="com.example.pasteleria.main.view.CarritoFragment"
+        android:label="fragment_carrito"
+        tools:layout="@layout/fragment_carrito" >
+        <action
+            android:id="@+id/action_carritoFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_carritoFragment_to_direccion1Fragment"
+            app:destination="@id/direccion1Fragment" />
+        <action
+            android:id="@+id/action_carritoFragment_to_direccion2Fragment"
+            app:destination="@id/direccion2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/direccion1Fragment"
+        android:name="com.example.pasteleria.main.view.direccion.Direccion1Fragment"
+        android:label="fragment_direccion1"
+        tools:layout="@layout/fragment_direccion1" >
+        <action
+            android:id="@+id/action_direccion1Fragment_to_direccion2Fragment"
+            app:destination="@id/direccion2Fragment" />
+        <action
+            android:id="@+id/action_direccion1Fragment_to_carritoFragment"
+            app:destination="@id/carritoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/direccion2Fragment"
+        android:name="com.example.pasteleria.main.view.direccion.Direccion2Fragment"
+        android:label="fragment_direccion2"
+        tools:layout="@layout/fragment_direccion2" >
+        <action
+            android:id="@+id/action_direccion2Fragment_to_direccion1Fragment"
+            app:destination="@id/direccion1Fragment" />
+        <action
+            android:id="@+id/action_direccion2Fragment_to_carritoFragment"
+            app:destination="@id/carritoFragment" />
+        <action
+            android:id="@+id/action_direccion2Fragment_to_pagoFragment"
+            app:destination="@id/pagoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pagoFragment"
+        android:name="com.example.pasteleria.main.view.PagoFragment"
+        android:label="fragment_pago"
+        tools:layout="@layout/fragment_pago" />
+</navigation>

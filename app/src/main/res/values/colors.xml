@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores básicos -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Tonos de chocolate -->
+    <color name="chocolate_claro1">#b08968</color>
+    <color name="chocolate_oscuro1">#210f04</color>
+
+    <!-- Colores suaves y pasteles -->
+    <color name="kinder">#ffedd8</color>
+    <color name="vainilla">#F6E2B3</color>
+    <color name="fresa">#F8A1B4</color>
+    <color name="caramelo">#C97C54</color>
+    <color name="durazno">#F9C2A3</color>
+    <color name="menta">#A8D5BA</color>
+
+    <!-- Tonos más oscuros -->
+    <color name="marron_chocolate">#3E2723</color>
+    <color name="cafe_taza">#6B4F3C</color>
+    <color name="ciruela">#9B4D97</color>
+    <color name="lavanda">#BFA3D2</color>
+    <color name="azul_claro">#A3C7D6</color>
+    <color name="amarillo_crema">#F4E2A8</color>
+
+    <!-- Colores brillantes -->
+    <color name="rosa_candy">#F16D8E</color>
+    <color name="naranja_tarta">#FF7F32</color>
+    <color name="verde_pistache">#7B9F92</color>
+
+    <!-- Colores para fondos y detalles -->
+    <color name="fondo_pasteleria">#FFF4E1</color>
+    <color name="detalles_bronce">#9E7F5B</color>
+    <color name="black_oscuro">#0D0D0D</color> <!-- Casi negro -->
+    <color name="white_oscuro">#E5E5E5</color> <!-- Blanco atenuado para no ser tan brillante -->
+
+    <!-- Tonos de chocolate -->
+    <color name="chocolate_claro_oscuro">#5B3A29</color> <!-- Marrón cálido y oscuro -->
+    <color name="chocolate_oscuro_oscuro">#1A0D07</color> <!-- Marrón muy profundo -->
+
+    <!-- Colores suaves y pasteles en versión oscura -->
+    <color name="kinder_oscuro">#9A826A</color>
+    <color name="vainilla_oscuro">#A68D5B</color>
+    <color name="fresa_oscuro">#8C4353</color>
+    <color name="caramelo_oscuro">#704A26</color>
+    <color name="durazno_oscuro">#915E42</color>
+    <color name="menta_oscuro">#4A6B5B</color>
+
+    <!-- Tonos más oscuros para profundidad -->
+    <color name="marron_chocolate_oscuro">#2E1B12</color>
+    <color name="cafe_taza_oscuro">#47362A</color>
+    <color name="ciruela_oscuro">#5B2C58</color>
+    <color name="lavanda_oscuro">#746186</color>
+    <color name="azul_claro_oscuro">#3E5869</color>
+    <color name="amarillo_crema_oscuro">#8C7446</color>
+
+    <!-- Colores vibrantes ajustados -->
+    <color name="rosa_candy_oscuro">#75344B</color>
+    <color name="naranja_tarta_oscuro">#8F4720</color>
+    <color name="verde_pistache_oscuro">#3C544A</color>
+
+    <!-- Fondos y detalles -->
+    <color name="fondo_pasteleria_oscuro">#17100E</color> <!-- Muy oscuro y acogedor -->
+    <color name="detalles_bronce_oscuro">#5A4332</color> <!-- Un bronce oscuro pero con presencia -->
+
+</resources>

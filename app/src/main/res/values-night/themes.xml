@@ -1,0 +1,22 @@
+<resources>
+    <style name="Theme.Pasteleria.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/chocolate_claro_oscuro</item>
+        <item name="colorPrimaryVariant">@color/chocolate_oscuro_oscuro</item>
+        <item name="colorOnPrimary">@color/white_oscuro</item>
+
+        <item name="colorSecondary">@color/caramelo_oscuro</item>
+        <item name="colorSecondaryVariant">@color/menta_oscuro</item>
+        <item name="colorOnSecondary">@color/white_oscuro</item>
+
+        <item name="android:windowBackground">@color/fondo_pasteleria_oscuro</item>
+        <item name="colorOnBackground">@color/white_oscuro</item>
+
+        <item name="colorSurface">@color/marron_chocolate_oscuro</item>
+        <item name="colorOnSurface">@color/white_oscuro</item>
+
+        <item name="colorError">@color/rosa_candy_oscuro</item>
+
+        <item name="android:textColorPrimary">@color/white_oscuro</item>
+        <item name="android:textColorSecondary">@color/kinder_oscuro</item>
+    </style>
+</resources>

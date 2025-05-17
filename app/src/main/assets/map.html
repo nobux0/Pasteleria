@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>Mapa con OpenStreetMap</title>
+        <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <style>
+            #map {
+                width: 100%;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="map"></div>
+
+        <script>
+            var negocioLatLng = [39.15270804109646, -5.910561716659066];
+            var cafeteriaLatLng = [39.1515333257165, -5.906647019477954];
+            var map = L.map('map').setView(negocioLatLng, 17);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors',
+                    maxZoom: 19
+                }).addTo(map);
+
+            L.marker(cafeteriaLatLng).addTo(map)
+            .bindPopup("<b>Pastelería Vicente Café</b><br>Cafetería Pastelería tradicional Extremeña ☕<br><a href='https://www.google.com/maps/search/?api=1&query=39.1515333257165, -5.906647019477954' target='_blank'>📍 Ver en Google Maps</a>")
+            .openPopup();
+
+            L.marker(negocioLatLng).addTo(map)
+            .bindPopup("<b>Pastelería Vicente</b><br>Pastelería tradicional Extremeña 🍰<br><a href='https://www.google.com/maps/search/?api=1&query=39.15270804109646,-5.910561716659066' target='_blank'>📍 Ver en Google Maps</a>")
+            .openPopup();
+        </script>
+
+    </body>
+</html>

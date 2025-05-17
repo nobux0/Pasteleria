@@ -1,0 +1,65 @@
+<resources>
+    <!-- Colores básicos -->
+    <color name="black">#000000</color>
+    <color name="white">#E0E0E0</color>
+
+    <!-- Tonos de chocolate -->
+    <color name="chocolate_claro1">#8B6B4E</color>
+    <color name="chocolate_oscuro1">#150A02</color>
+
+    <!-- Colores suaves y pasteles -->
+    <color name="kinder">#C0A895</color>
+    <color name="vainilla">#B59D75</color>
+    <color name="fresa">#B26476</color>
+    <color name="caramelo">#8A5737</color>
+    <color name="durazno">#B0745D</color>
+    <color name="menta">#5C8A72</color>
+
+    <!-- Tonos más oscuros -->
+    <color name="marron_chocolate">#2C1A14</color>
+    <color name="cafe_taza">#4F3B2E</color>
+    <color name="ciruela">#6A375E</color>
+    <color name="lavanda">#8D769F</color>
+    <color name="azul_claro">#5C7686</color>
+    <color name="amarillo_crema">#A78F5D</color>
+
+    <!-- Colores brillantes -->
+    <color name="rosa_candy">#A44D62</color>
+    <color name="naranja_tarta">#B35F28</color>
+    <color name="verde_pistache">#4F6E5D</color>
+
+    <!-- Colores para fondos y detalles -->
+    <color name="fondo_pasteleria">#2C241E</color>
+    <color name="detalles_bronce">#6F553D</color>
+    <color name="black_oscuro">#0A0A0A</color>
+    <color name="white_oscuro">#C4C4C4</color>
+
+    <!-- Tonos de chocolate -->
+    <color name="chocolate_claro_oscuro">#3D271A</color>
+    <color name="chocolate_oscuro_oscuro">#100702</color>
+
+    <!-- Colores suaves y pasteles en versión oscura -->
+    <color name="kinder_oscuro">#705A49</color>
+    <color name="vainilla_oscuro">#6E5B3B</color>
+    <color name="fresa_oscuro">#52272E</color>
+    <color name="caramelo_oscuro">#482C17</color>
+    <color name="durazno_oscuro">#593827</color>
+    <color name="menta_oscuro">#2B4033</color>
+
+    <!-- Tonos más oscuros para profundidad -->
+    <color name="marron_chocolate_oscuro">#1E120A</color>
+    <color name="cafe_taza_oscuro">#31241B</color>
+    <color name="ciruela_oscuro">#3B1D37</color>
+    <color name="lavanda_oscuro">#4A3B57</color>
+    <color name="azul_claro_oscuro">#273A45</color>
+    <color name="amarillo_crema_oscuro">#5C4A2E</color>
+
+    <!-- Colores vibrantes ajustados -->
+    <color name="rosa_candy_oscuro">#3B1A25</color>
+    <color name="naranja_tarta_oscuro">#5A2D16</color>
+    <color name="verde_pistache_oscuro">#1E2F26</color>
+
+    <!-- Fondos y detalles -->
+    <color name="fondo_pasteleria_oscuro">#0F0B09</color>
+    <color name="detalles_bronce_oscuro">#3A2A1F</color>
+</resources>
