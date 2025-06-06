@@ -96,6 +96,7 @@ public class RegistrarFragment extends Fragment {
     private void registerUser() {
         String email = binding.correoInput.getText().toString().trim();
         String nombre = binding.nombreInput.getText().toString().trim();
+        String telefono = binding.telefonoInput.getText().toString().trim();
         String password = binding.contrasenaInput.getText().toString().trim();
         String passwordRepe = binding.contrasenaRepetirInput.getText().toString().trim();
 
@@ -104,6 +105,9 @@ public class RegistrarFragment extends Fragment {
         }
         if (password.isEmpty()) {
             binding.contrasenaInput.setError("La contraseña es obligatoria");
+        }
+        if (telefono.isEmpty()) {
+            binding.telefonoInput.setError("El telefono es obligatorio");
         }
         if (nombre.isEmpty()) {
             binding.nombreInput.setError("El nombre es obligatorio");
@@ -119,13 +123,13 @@ public class RegistrarFragment extends Fragment {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity(), task -> {
                 if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
-                    Cliente nuevoCliente = new Cliente(user.getUid(), nombre, email, null, null,"");
+                    Cliente nuevoCliente = new Cliente(user.getUid(), nombre, email, telefono, null,"",fecha);
                     FirebaseFirestore db = FirestoreClient.getInstance().getDatabase();
                     db.collection("clientes").document(nuevoCliente.getId()).set(nuevoCliente)
                             .addOnSuccessListener(aVoid -> {
                                 Log.d("Firestore", "Cliente agregado correctamente");
                                 crearClienteEnStripe(user.getUid(), email, nombre);
-                            }) // Se ejecuta si el anuncio se agregó correctamente
+                            })
                             .addOnFailureListener(e -> Log.e("Firestore", "Error al agregar cliente", e));;
                     Toast.makeText(requireActivity(), "Registro exitoso: " + user.getEmail(), Toast.LENGTH_SHORT).show();
                     iniciarMainActivity();

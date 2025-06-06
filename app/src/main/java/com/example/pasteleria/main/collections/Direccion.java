@@ -3,7 +3,7 @@ package com.example.pasteleria.main.collections;
 import java.io.Serializable;
 
 public class Direccion implements Serializable {
-    private String id;
+    private String idUsuario;
     private String calle;
     private String telefono;
     private String nombre;
@@ -11,13 +11,15 @@ public class Direccion implements Serializable {
     public Direccion() {
     }
 
-    public Direccion(String id ,String calle, String telefono, String nombre) {
-        this.id = id;
+    public Direccion( String idUsuario,String calle, String telefono, String nombre) {
+        this.idUsuario = idUsuario;
         this.calle = calle;
         this.telefono = telefono;
         this.nombre = nombre;
     }
-    public String getId(){return id;}
+    public String getIdUsuario() {
+        return idUsuario;
+    }
     public String getCalle() {
         return calle;
     }

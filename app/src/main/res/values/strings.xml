@@ -3,6 +3,45 @@
     <string name="app_name">Pasteleria</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_web_client_id">144192975470-5io912gqrcneitl5vt575qtn9o1abfm2.apps.googleusercontent.com</string>
+    <string name="revisa_la_cesta">Revisa la cesta</string>
+    <string name="detalle_nombre_producto">Nombre del producto</string>
+    <string name="detalle_precio">Precio</string>
+    <string name="anadir_al_carrito">Comprar</string>
+    <string name="hint_direccion">Calle y número de Miajadas</string>
+    <string name="hint_telefono">Teléfono de contacto</string>
+    <string name="hint_nombre_contacto">Nombre de contacto</string>
+    <string name="titulo_direccion_envio">Dirección del envío</string>
+    <string name="direcciones_guardadas">Direcciones guardadas</string>
+    <string name="ver_todo">ver todo</string>
+    <string name="imagen">Imagen</string>
+    <string name="anadir">añadir</string>
+    <string name="telefono">Teléfono</string>
+    <string name="pedidos">Pedidos</string>
+
+    <string name="no_pedidos">Aún no has realizado ningun pedido</string>
+    <string name="estado">Estado</string>
+    <string name="fecha">Fecha</string>
+
+    <string name="pedido">ID Pedido</string>
+    <string name="anadir_direccion">Añadir dirección</string>
+    <string name="titulo_novedades">Novedades</string>
+    <string name="subtitulo_novedades">Ofertas y Novedades</string>
+    <string name="titulo_pasteleria">Pastelería Vicente</string>
+    <string name="ver_catalogo">Ver catálogo 🍰</string>
+    <string name="donde_estamos">Dónde estamos 📍</string>
+    <string name="pagar">Pagar</string>
+    <string name="cumpleanos">Cumpleaños</string>
+    <string name="cambiar_idioma">Cambiar idioma</string>
+    <string name="necesitas_ayuda">¿Necesitas ayuda?</string>
+    <string name="soporte_texto">
+    Si tienes algún problema relacionado con el uso de la aplicación, no dudes en comunicarte con nuestro equipo de soporte. Estamos aquí para ayudarte.\n\n
+
+📞 Teléfono de contacto: 655064645\n\n
+
+✉️ Correo electrónico: agarciam129@educarex.es\n\n
+
+Atendemos de lunes a viernes, de 9:00 a.m. a 6:00 p.m. (hora local).\n
+</string>
 
     <string name="inicio_sesion">Inicio de sesión!</string>
     <string name="correo_hint">Correo</string>

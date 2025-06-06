@@ -1,5 +1,9 @@
 package com.example.pasteleria.main.view;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +22,8 @@ import com.example.pasteleria.R;
 import com.example.pasteleria.databinding.FragmentLoginBinding;
 import com.example.pasteleria.databinding.FragmentMapBinding;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.net.URISyntaxException;
 
 public class MapFragment extends Fragment {
     private WebView webView;
@@ -39,8 +45,32 @@ public class MapFragment extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
-
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith("intent://")) {
+                    try {
+                        Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                        if (intent != null) {
+                            startActivity(intent);
+                            return true;
+                        }
+                    } catch (URISyntaxException | ActivityNotFoundException e) {
+                        // Fallback: abre Play Store o página web
+                        Intent fallback = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps"));
+                        startActivity(fallback);
+                        return true;
+                    }
+                } else if (url.startsWith("http") || url.startsWith("https")) {
+                    view.loadUrl(url);
+                    return true;
+                }
+                return false;
+            }
+        });
         webView.loadUrl("file:///android_asset/map.html");
+        webView.setBackgroundColor(Color.WHITE);
+
     }
+
 }

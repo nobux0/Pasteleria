@@ -182,7 +182,7 @@ public class LoginFragment extends Fragment {
                 .addOnCompleteListener(this.getActivity(), task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Cliente nuevoCliente = new Cliente(user.getUid(), user.getDisplayName(), user.getEmail(), null, null,"");
+                        Cliente nuevoCliente = new Cliente(user.getUid(), user.getDisplayName(), user.getEmail(), null, null,"", null);
                         FirebaseFirestore db = FirestoreClient.getInstance().getDatabase();
 
                         db.collection("clientes").document(nuevoCliente.getId()).set(nuevoCliente)

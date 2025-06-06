@@ -32,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CarritoFragment extends Fragment {
     private FragmentCarritoBinding binding;
@@ -60,39 +61,59 @@ public class CarritoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        CarritoAdapter carritoAdapter = new CarritoAdapter(new ArrayList<>(), carritoViewModel, reciboViewModel);
+        CarritoAdapter carritoAdapter = new CarritoAdapter(new ArrayList<>(),new ArrayList<>(), carritoViewModel, reciboViewModel);
+        carritoViewModel.getProductosCarritoP().observe(getViewLifecycleOwner(), new Observer<List<Producto>>() {
+            @Override
+            public void onChanged(List<Producto> productoPedidosP) {
+                carritoAdapter.setProductosP(productoPedidosP);
+                carritoAdapter.notifyDataSetChanged();
+            }
+        });
         carritoViewModel.getProductosCarrito().observe(getViewLifecycleOwner(), new Observer<List<ProductoPedido>>() {
             @Override
             public void onChanged(List<ProductoPedido> productoPedidos) {
                 carritoAdapter.setProductos(productoPedidos);
                 carritoAdapter.notifyDataSetChanged();
-                binding.textViewTotal.setText(String.valueOf(carritoViewModel.obtenerTotal()+"€"));
+                double precio = carritoViewModel.obtenerTotal();
+                if (precio == (int) precio) {
+                    binding.textViewTotal.setText((int) precio + "€");
+                } else {
+                    binding.textViewTotal.setText(String.format(Locale.getDefault(), "%.2f€", precio));
+                }
             }
         });
         binding.recyclerView.setAdapter(carritoAdapter);
         binding.papeleraButton.setOnClickListener(v -> {carritoViewModel.vaciarCarrito();
         reciboViewModel.vaciarRecibo();});
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.continuarButton.setOnClickListener(v -> {
-            db = FirebaseFirestore.getInstance();
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            binding.continuarButton.setOnClickListener(v -> {
+                List<ProductoPedido> carrito = carritoViewModel.getProductosCarrito().getValue();
+                if (carrito != null && !carrito.isEmpty()) {
+                db = FirebaseFirestore.getInstance();
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            db.collection("direcciones").document(userId).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (!isAdded()) return;
+                db.collection("direcciones")
+                        .whereEqualTo("idUsuario", userId)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!isAdded()) return;
 
-                        if (documentSnapshot.exists()) {
-                            navController.navigate(R.id.action_carritoFragment_to_direccion2Fragment);
-                        } else {
-                            navController.navigate(R.id.action_carritoFragment_to_direccion1Fragment);
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        if (isAdded()) {
-                            Toast.makeText(requireContext(), "Error al cargar dirección", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        });
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                navController.navigate(R.id.action_carritoFragment_to_direccion2Fragment);
+                            } else {
+                                navController.navigate(R.id.action_carritoFragment_to_direccion1Fragment);
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            if (isAdded()) {
+                                Toast.makeText(requireContext(), "Error al cargar dirección", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                Toast.makeText(getContext(), "El carrito está vacío", Toast.LENGTH_SHORT).show();
+            }
+            });
+
 
     }
 }

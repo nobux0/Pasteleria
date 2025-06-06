@@ -26,9 +26,12 @@ import com.example.pasteleria.main.misc.ProductosAdapter;
 import com.example.pasteleria.main.viewmodel.CarritoViewModel;
 import com.example.pasteleria.main.viewmodel.ProductoViewModel;
 import com.example.pasteleria.main.viewmodel.ReciboViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemsFragment extends Fragment {
     private FragmentItemsBinding binding;
@@ -61,21 +64,27 @@ public class ItemsFragment extends Fragment {
         binding.recyclerViewCatalogoBuscar.setAdapter(productosAdapter);
 
         binding.recyclerViewCatalogoBuscar.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
         productoViewModel.obtenerProductos().observe(getViewLifecycleOwner(), new Observer<List<Producto>>() {
             @Override
             public void onChanged(List<Producto> productos) {
                 if (productos != null) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.recyclerViewCatalogoBuscar.setVisibility(View.VISIBLE);
+
+                    productoViewModel.setBusqueda(false);
                     productosAdapter.establecerListaProductos(productos);
                 }
             }
         });
-        carritoViewModel.getTotalProductos().observe(getViewLifecycleOwner(),total -> binding.totalItems.setText(String.valueOf(total+"€")));
-        productoViewModel.getStock().observe(getViewLifecycleOwner(), isChecked -> {
-            binding.switchStock.setChecked(isChecked);
+        carritoViewModel.getTotalProductos().observe(getViewLifecycleOwner(),total -> {
+            DecimalFormat df = new DecimalFormat("#.##");
+            String totalFormateado = df.format(total) + "€";
+            binding.totalItems.setText(totalFormateado);
         });
-        binding.switchStock.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        productoViewModel.getStock().observe(getViewLifecycleOwner(), isChecked -> {
+            binding.switchStockFix.setChecked(isChecked);
+        });
+        binding.switchStockFix.setOnCheckedChangeListener((buttonView, isChecked) -> {
             productoViewModel.setStock(isChecked);
         });
 
@@ -121,6 +130,51 @@ public class ItemsFragment extends Fragment {
                 return true;
             }
         });
+        BottomNavigationView bottomNav = binding.bottomNavigation;
 
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.menu_catalogo) {
+                    productoViewModel.obtenerProductos().observe(getViewLifecycleOwner(), productos -> {
+                        productosAdapter.desactivarModoGrupo();
+                        productosAdapter.establecerListaProductos(productos);
+                    });
+                    return true;
+                } else if (id == R.id.menu_novedades) {
+                    productoViewModel.obtenerProductos().observe(getViewLifecycleOwner(), productos -> {
+                        List<Producto> novedades = productos.stream()
+                                .filter(p -> p.isNovedad())
+                                .collect(Collectors.toList());
+                        productosAdapter.activarModoGrupo();
+                        productosAdapter.establecerListaProductos(novedades);
+                    });
+                    return true;
+                } else if (id == R.id.menu_ofertas) {
+                    productoViewModel.obtenerProductos().observe(getViewLifecycleOwner(), productos -> {
+                        List<Producto> ofertas = productos.stream()
+                                .filter(p -> p.getStock() > 0)
+                                .collect(Collectors.toList());
+                        productosAdapter.activarModoGrupo();
+                        productosAdapter.establecerListaProductos(ofertas);
+                    });
+                    return true;
+            }
+            return false;
+        });
+        String tabInicial = getArguments() != null ? getArguments().getString("tabInicial") : null;
+        if (tabInicial != null) {
+            switch (tabInicial) {
+                case "novedades":
+                    bottomNav.setSelectedItemId(R.id.menu_novedades);
+                    break;
+                case "ofertas":
+                    bottomNav.setSelectedItemId(R.id.menu_ofertas);
+                    break;
+                case "catalogo":
+                default:
+                    bottomNav.setSelectedItemId(R.id.menu_catalogo);
+                    break;
+            }
+        }
     }
 }

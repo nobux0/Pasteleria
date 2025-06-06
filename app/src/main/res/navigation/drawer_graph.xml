@@ -9,7 +9,17 @@
         android:id="@+id/mainFragment"
         android:name="com.example.pasteleria.main.view.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_itemsFragment"
+            app:destination="@id/itemsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemsFragment"
         android:name="com.example.pasteleria.main.view.ItemsFragment"
@@ -21,12 +31,19 @@
         <action
             android:id="@+id/action_itemsFragment_to_carritoFragment"
             app:destination="@id/carritoFragment" />
+        <action
+            android:id="@+id/action_itemsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.pasteleria.main.view.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_mainFragment2"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.example.pasteleria.main.view.UserFragment"
@@ -84,4 +101,18 @@
         android:name="com.example.pasteleria.main.view.PagoFragment"
         android:label="fragment_pago"
         tools:layout="@layout/fragment_pago" />
+    <fragment
+        android:id="@+id/pedidosFragment"
+        android:name="com.example.pasteleria.main.view.PedidosFragment"
+        android:label="fragment_pedidos"
+        tools:layout="@layout/fragment_pedidos" >
+        <action
+            android:id="@+id/action_pedidosFragment_to_detailsPedidoFragment"
+            app:destination="@id/detailsPedidoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsPedidoFragment"
+        android:name="com.example.pasteleria.main.view.DetailsPedidoFragment"
+        android:label="fragment_details_pedido"
+        tools:layout="@layout/fragment_details_pedido" />
 </navigation>

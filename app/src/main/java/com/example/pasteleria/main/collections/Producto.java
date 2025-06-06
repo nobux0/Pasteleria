@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 public class Producto implements Parcelable {
     private String id;
+    private boolean novedad;
     private String nombre;
     private String descripcion;
     private double precio;
@@ -17,7 +18,7 @@ public class Producto implements Parcelable {
     public Producto() {
     }
 
-    public Producto(String id, String nombre, String descripcion, double precio, int stock, String categoria, String imagenUrl) {
+    public Producto(String id, String nombre, String descripcion, double precio, int stock, String categoria, String imagenUrl, boolean novedad) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -25,6 +26,7 @@ public class Producto implements Parcelable {
         this.stock = stock;
         this.categoria = categoria;
         this.imagenUrl = imagenUrl;
+        this.novedad = novedad;
     }
 
     protected Producto(Parcel in) {
@@ -35,6 +37,7 @@ public class Producto implements Parcelable {
         stock = in.readInt();
         categoria = in.readString();
         imagenUrl = in.readString();
+        novedad = in.readByte() != 0;
     }
 
     public static final Creator<Producto> CREATOR = new Creator<Producto>() {
@@ -77,6 +80,13 @@ public class Producto implements Parcelable {
         return imagenUrl;
     }
 
+    public boolean isNovedad() {
+        return novedad;
+    }
+
+    public void setNovedad(boolean novedad) {
+        this.novedad = novedad;
+    }
 
     @Override
     public int describeContents() {
@@ -92,5 +102,6 @@ public class Producto implements Parcelable {
         dest.writeInt(stock);
         dest.writeString(categoria);
         dest.writeString(imagenUrl);
+        dest.writeByte((byte) (novedad ? 1 : 0));
     }
 }

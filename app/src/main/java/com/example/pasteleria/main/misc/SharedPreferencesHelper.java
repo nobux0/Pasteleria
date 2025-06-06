@@ -32,9 +32,6 @@ public class SharedPreferencesHelper {
     public SharedPreferencesHelper(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
-    public void guardarNombreBool(boolean nombre){
-        sharedPreferences.edit().putBoolean(NOMBRE_BOOL,nombre).apply();
-    }
     public boolean obtenerNombreBool(){
         return sharedPreferences.getBoolean(NOMBRE_BOOL,false);
     }

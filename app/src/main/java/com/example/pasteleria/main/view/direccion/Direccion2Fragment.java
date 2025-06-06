@@ -60,13 +60,26 @@ public class Direccion2Fragment extends Fragment {
 
         });
         binding.recyclerViewDirecciones.setAdapter(adapter);
-    binding.continuarButton2.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+        binding.buttonDireccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = NavHostFragment.findNavController(Direccion2Fragment.this);
+                navController.navigate(R.id.action_direccion2Fragment_to_direccion1Fragment);
+            }
+        });
+        binding.continuarButton2.setOnClickListener(v -> {
+            if (listaDirecciones.isEmpty()) {
+                Toast.makeText(getContext(), "Debes agregar al menos una dirección", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Direccion direccionSeleccionada = listaDirecciones.get(0);
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("direccionSeleccionada", direccionSeleccionada);
+
             NavController navController = NavHostFragment.findNavController(Direccion2Fragment.this);
-            navController.navigate(R.id.action_direccion2Fragment_to_pagoFragment);
-        }
-    });
+            navController.navigate(R.id.action_direccion2Fragment_to_pagoFragment, bundle);
+        });
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         cargarDirecciones();
@@ -78,14 +91,16 @@ public class Direccion2Fragment extends Fragment {
         String userId = mAuth.getCurrentUser().getUid();
 
         db.collection("direcciones")
-                .whereEqualTo("id", userId)
+                .whereEqualTo("idUsuario", userId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     listaDirecciones.clear();
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         Direccion direccion = doc.toObject(Direccion.class);
+                        Log.d("DireccionDebug", "Dirección cargada: " + direccion.getNombre());
                         listaDirecciones.add(direccion);
                     }
+                    Log.d("DireccionDebug", "Total direcciones: " + listaDirecciones.size());
                     adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {

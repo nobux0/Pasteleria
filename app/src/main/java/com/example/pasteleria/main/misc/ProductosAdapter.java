@@ -6,12 +6,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.pasteleria.R;
 import com.example.pasteleria.databinding.FragmentItemsBinding;
 import com.example.pasteleria.databinding.ViewholderCategoriaBinding;
@@ -36,10 +41,15 @@ public class ProductosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean precio = false;
     private boolean stock = false;
     private LifecycleOwner lifecycleOwner;
+    private boolean modoCompacto = false;
+    public static final int VIEW_TYPE_CATEGORIA = 0;
+    public static final int VIEW_TYPE_COMPACTO = 2;
+    public static final int VIEW_TYPE_NORMAL = 1;
     private List<Object> items;
     private Map<String, Boolean> categoriasExpandibles;
     List<Producto> listaProductos;
     CarritoViewModel carritoViewModel;
+    private boolean modoGrupo = false;
     ReciboViewModel reciboViewModel;
     ProductoViewModel productoViewModel;
     NavController navController;
@@ -58,7 +68,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         productoViewModel.getStock().observe(lifecycleOwner, isChecked -> {
             stock = isChecked;
-            if (busqueda) {
+            if (busqueda || modoGrupo) {
                 establecerListaProductos(listaProductos);
             }
         });
@@ -70,15 +80,18 @@ public class ProductosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         productoViewModel.getPrecio().observe(lifecycleOwner, isChecked -> {
             precio = isChecked;
-            if (busqueda) {
+            if (busqueda || modoGrupo) {
                 establecerListaProductos(listaProductos);
             }
         });
     }
-
     @Override
     public int getItemViewType(int position) {
-        return (items.get(position) instanceof String) ? TYPE_CATEGORIA : TYPE_PRODUCTO;
+        if (items.get(position) instanceof String) {
+            return TYPE_CATEGORIA;
+        } else {
+            return modoCompacto ? VIEW_TYPE_COMPACTO : VIEW_TYPE_NORMAL;
+        }
     }
 
     @NonNull
@@ -88,12 +101,16 @@ public class ProductosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ViewholderCategoriaBinding binding = ViewholderCategoriaBinding.inflate(
                     LayoutInflater.from(parent.getContext()), parent, false);
             return new CategoriaViewHolder(binding);
+        } else if (viewType == VIEW_TYPE_COMPACTO) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_producto_compacto, parent, false);
+            return new ProductoViewHolder(view);
         } else {
             ViewholderProductoBinding binding = ViewholderProductoBinding.inflate(
                     LayoutInflater.from(parent.getContext()), parent, false);
-            return new ProductoViewHolder(binding);
+            return new ProductoViewHolder(binding.getRoot());
         }
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
@@ -132,13 +149,21 @@ public class ProductosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (currentFragmentId == R.id.itemsFragment) {
             navController.navigate(R.id.action_itemsFragment_to_detailsFragment, args);
         }
+        if (currentFragmentId == R.id.mainFragment) {
+            navController.navigate(R.id.action_mainFragment_to_detailsFragment, args);
+        }
     }
 
     @Override
     public int getItemCount() {
         return items.size();
     }
-
+    public void activarModoGrupo() {
+        this.modoGrupo = true;
+    }
+    public void desactivarModoGrupo() {
+        this.modoGrupo = false;
+    }
     public Producto obtenerProducto(int posicion) {
         return listaProductos.get(posicion);
     }
@@ -161,7 +186,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 productosFiltrados.add(producto);
                 }
             }
-            if (busqueda) {
+            if (busqueda || modoGrupo) {
                 //burbuja
                 for (int i = 0; i < productosFiltrados.size(); i++) {
                     for (int j = 0; j < productosFiltrados.size() - i - 1; j++) {
@@ -204,27 +229,42 @@ public class ProductosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     class ProductoViewHolder extends RecyclerView.ViewHolder {
-        private final ViewholderProductoBinding binding;
-        public ProductoViewHolder(ViewholderProductoBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        TextView nombreProducto;
+        ImageView imagenProducto;
+        ImageButton aAdir;
+
+        public ProductoViewHolder(View itemView) {
+            super(itemView);
+            nombreProducto = itemView.findViewById(R.id.nombreProductoIV);
+            imagenProducto = itemView.findViewById(R.id.productoIV);
+            aAdir = itemView.findViewById(R.id.aAdir);
         }
+
         void bind(Producto producto) {
-            binding.nombretv.setText(producto.getNombre());
-            binding.categoriatv.setText(producto.getCategoria());
+            nombreProducto.setText(producto.getNombre());
+
+            if (producto.getImagenUrl() != null) {
+                Glide.with(itemView.getContext())
+                        .load(producto.getImagenUrl())
+                        .into(imagenProducto);
+            }
+
             Log.d("productoid", "idProducto: " + producto.getId());
-            binding.aAdir.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    carritoViewModel.obtenerProductoYAgregarAlCarrito(producto.getId());
-                    reciboViewModel.obtenerProductoYAgregarAlRecibo(producto.getId());
-                }
+
+            aAdir.setOnClickListener(v -> {
+                carritoViewModel.obtenerProductoYAgregarAlCarrito(producto.getId());
+                reciboViewModel.obtenerProductoYAgregarAlRecibo(producto.getId());
             });
+
             int currentFragmentId = navController.getCurrentDestination().getId();
-            binding.getRoot().setOnClickListener(view -> navegarPantallaDetalle(producto, currentFragmentId));
+            itemView.setOnClickListener(view -> navegarPantallaDetalle(producto, currentFragmentId));
         }
     }
 
+    public void activarModoCompacto() {
+        this.modoCompacto = true;
+        notifyDataSetChanged();
+    }
     class CategoriaViewHolder extends RecyclerView.ViewHolder {
         private final ViewholderCategoriaBinding binding;
 

@@ -12,6 +12,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -60,6 +61,34 @@ public class UserRepository {
         }
         return nombreLiveData;
     }
+    public LiveData<String> obtenerTelefonoCliente() {
+        MutableLiveData<String> telefonoLiveData = new MutableLiveData<>();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            db.collection("clientes").document(userId).get()
+                    .addOnSuccessListener(document -> {
+                        if (document.exists()) {
+                            telefonoLiveData.setValue(document.getString("telefono"));
+                        }
+                    });
+        }
+        return telefonoLiveData;
+    }
+    public LiveData<Date> obtenerCumpleCliente() {
+        MutableLiveData<Date> cumpleLiveData = new MutableLiveData<>();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            db.collection("clientes").document(userId).get()
+                    .addOnSuccessListener(document -> {
+                        if (document.exists()) {
+                            cumpleLiveData.setValue(document.getDate("cumpleanos"));
+                        }
+                    });
+        }
+        return cumpleLiveData;
+    }
     public LiveData<Boolean> agregarImagenCliente(String fileUrl) {
         Log.d("UserRepository", "Actualizando Firestore con URL: " + fileUrl);
         MutableLiveData<Boolean> result = new MutableLiveData<>();
@@ -79,22 +108,17 @@ public class UserRepository {
     }
     public LiveData<String> uploadImage(File imageFile) {
         MutableLiveData<String> liveDataUrl = new MutableLiveData<>();
-
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file",user.getUid()+".jpg", requestFile);
-
         Call<Void> deleteCall = storageApi.deleteImage("Bearer " + API_KEY, "pasteles", user.getUid()+".jpg");
-
         deleteCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
                 Call<Void> uploadCall = storageApi.uploadImage("Bearer " + API_KEY, "pasteles", user.getUid()+".jpg", body);
                 uploadCall.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
-
                             String fileUrl = "https://wpjxhxiucwiybthuwwwm.supabase.co/storage/v1/object/public/pasteles/" + user.getUid()+".jpg";
                             Log.d("UserRepository", "URL de la imagen subida: " + fileUrl);
                             liveDataUrl.postValue(fileUrl);
@@ -108,7 +132,6 @@ public class UserRepository {
                             liveDataUrl.postValue(null);
                         }
                     }
-
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         Log.e("UserRepository", "Fallo en uploadCall: " + t.getMessage());
@@ -116,13 +139,11 @@ public class UserRepository {
                     }
                 });
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 liveDataUrl.postValue(null);
             }
         });
-
         return liveDataUrl;
     }
 

@@ -13,10 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pasteleria.databinding.FragmentPagoBinding;
+import com.example.pasteleria.main.collections.Direccion;
 import com.example.pasteleria.main.collections.ProductoPedido;
 import com.example.pasteleria.main.misc.ReciboAdapter;
+import com.example.pasteleria.main.model.PedidoRepository;
 import com.example.pasteleria.main.viewmodel.ReciboViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,6 +31,7 @@ import com.stripe.android.paymentsheet.PaymentSheetResult;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -46,7 +50,9 @@ import okhttp3.Response;
 public class PagoFragment extends Fragment {
     private FragmentPagoBinding binding;
     private PaymentSheet paymentSheet;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private ReciboViewModel reciboViewModel;
+    private String direccionId;
     private PaymentSheet.CustomerConfiguration customerConfig;
 
     @Override
@@ -57,10 +63,32 @@ public class PagoFragment extends Fragment {
                 requireContext().getApplicationContext(),
                 "pk_test_51RERvYRtI6IUj8z1WzvNxvn1BUb7KakJk1FhFFsFj4IOwL6RloiZreKBM3IS9EIecLaQ9E2SRjPKuDxyKqhmQyxA00mOsw1M3t"
         );
+        Direccion direccionSeleccionada = (Direccion) getArguments().getSerializable("direccionSeleccionada");
 
         paymentSheet = new PaymentSheet(this, paymentResult -> {
             if (paymentResult instanceof PaymentSheetResult.Completed) {
                 Log.d("Stripe", "Pago completado");
+
+                // Crear el pedido
+                PedidoRepository pedidoRepository = new PedidoRepository(requireActivity().getApplication());
+                String direccionId = direccionSeleccionada.getIdUsuario();
+                List<ProductoPedido> productos = reciboViewModel.getProductosRecibo().getValue();
+
+                if (productos != null && direccionId != null) {
+                    pedidoRepository.crearPedido(direccionId, productos).observe(this, exito -> {
+                        if (Boolean.TRUE.equals(exito)) {
+                            Log.d("Pedido", "Pedido creado exitosamente");
+                            Toast.makeText(requireContext(), "Pedido realizado con éxito", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("Pedido", "Error al crear el pedido");
+                            Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Log.e("Pedido", "No se puede crear el pedido faltan datos");
+                    Toast.makeText(requireContext(), "errror", Toast.LENGTH_SHORT).show();
+                }
+
             } else {
                 Log.e("Stripe", "Pago fallido o cancelado");
             }
@@ -110,7 +138,12 @@ public class PagoFragment extends Fragment {
             public void onChanged(List<ProductoPedido> productoPedidos) {
                 reciboAdapter.setProductos(productoPedidos);
                 reciboAdapter.notifyDataSetChanged();
-                binding.total.setText(String.valueOf(reciboViewModel.obtenerTotal()+"€"));
+                double precio = reciboViewModel.obtenerTotal();
+                if (precio == (int) precio) {
+                    binding.total.setText((int) precio + "€");
+                } else {
+                    binding.total.setText(String.format(Locale.getDefault(), "%.2f€", precio));
+                }
             }
         });
         binding.recyclerView.setAdapter(reciboAdapter);
@@ -122,7 +155,7 @@ public class PagoFragment extends Fragment {
 
         Map<String, Object> data = new HashMap<>();
         data.put("customerId", stripeCustomerId);
-        data.put("amount", 1500);
+        data.put("amount", reciboViewModel.obtenerTotal() * 100); // Convertir a centimos
         data.put("currency", "eur");
 
         String json = new Gson().toJson(data);

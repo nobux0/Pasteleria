@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -18,12 +17,14 @@ import android.widget.Toast;
 
 import com.example.pasteleria.R;
 import com.example.pasteleria.databinding.FragmentDireccion1Binding;
-import com.example.pasteleria.main.MainActivity;
 import com.example.pasteleria.main.collections.Direccion;
 import com.example.pasteleria.main.model.FirestoreClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
+
 public class Direccion1Fragment extends Fragment {
     private FragmentDireccion1Binding binding;
     private FirebaseAuth mAuth;
@@ -34,13 +35,15 @@ public class Direccion1Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDireccion1Binding.inflate(inflater, container, false);
+        binding.telefonoInput.setText("+34");
         requireActivity().setTitle("Dirección");
         if (getArguments() != null && getArguments().containsKey("direccion")) {
             Direccion direccion = (Direccion) getArguments().getSerializable("direccion");
 
+            assert direccion != null;
             binding.direccionInput.setText(direccion.getCalle());
             binding.telefonoInput.setText(direccion.getTelefono());
             binding.nombrePedidoInput.setText(direccion.getNombre());
@@ -57,9 +60,9 @@ public class Direccion1Fragment extends Fragment {
         binding.button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nombre = binding.nombrePedidoInput.getText().toString();
-                String direccion = binding.direccionInput.getText().toString();
-                String numero = binding.telefonoInput.getText().toString();
+                String nombre = Objects.requireNonNull(binding.nombrePedidoInput.getText()).toString();
+                String direccion = Objects.requireNonNull(binding.direccionInput.getText()).toString();
+                String numero = Objects.requireNonNull(binding.telefonoInput.getText()).toString();
 
 
                 FirebaseUser user = mAuth.getCurrentUser();
@@ -67,15 +70,14 @@ public class Direccion1Fragment extends Fragment {
                     Toast.makeText(getContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                assert user != null;
                 Direccion nuevaDireccion = new Direccion(user.getUid(), direccion,  numero, nombre );
                 FirebaseFirestore db = FirestoreClient.getInstance().getDatabase();
-                db.collection("direcciones").document(nuevaDireccion.getId())
-                        .set(nuevaDireccion)
+                db.collection("direcciones").add(nuevaDireccion)
                         .addOnSuccessListener(aVoid -> {
                             NavOptions navOptions = new NavOptions.Builder()
-                                    .setPopUpTo(R.id.direccion2Fragment, true) // Elimina Dirección1 y Dirección2 anterior
+                                    .setPopUpTo(R.id.direccion2Fragment, true)
                                     .build();
-
                             navController.navigate(R.id.action_direccion1Fragment_to_direccion2Fragment, null, navOptions);
 
                         })

@@ -2,6 +2,8 @@ package com.example.pasteleria.main.view;
 
 import static android.app.Activity.RESULT_OK;
 
+import static androidx.core.app.ActivityCompat.recreate;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -11,8 +13,7 @@ import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pasteleria.login.LoginActivity;
-import com.example.pasteleria.main.MainActivity;
-import com.example.pasteleria.main.misc.ImageUtils;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,13 +22,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.pasteleria.R;
-import com.example.pasteleria.databinding.FragmentLoginBinding;
 import com.example.pasteleria.databinding.FragmentUserBinding;
 import com.example.pasteleria.main.misc.SharedPreferencesHelper;
 import com.example.pasteleria.main.viewmodel.UserViewModel;
@@ -47,6 +44,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class UserFragment extends Fragment {
@@ -129,6 +127,7 @@ public class UserFragment extends Fragment {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
+            recreate(requireActivity());
         });
 
         binding.cerrarSesionButton.setOnClickListener(new View.OnClickListener() {
@@ -142,8 +141,22 @@ public class UserFragment extends Fragment {
         if (user != null) {
             if (!helper.obtenerNombreBool()) {
                  userViewModel.cargarNombreUsuario();
+                 userViewModel.cargarCumple();
+                 userViewModel.cargarTelefono();
             }
         }
+        userViewModel.telefono.observe(requireActivity(), telefono -> {
+            if (telefono != null) {
+                binding.telefonoTV.setText(telefono);
+            }
+        });
+        userViewModel.cumple.observe(requireActivity(), cumple -> {
+            if (cumple != null) {
+                SimpleDateFormat formatoBien = new SimpleDateFormat("dd/MM/yyyy");
+                String cumpleBien = formatoBien.format(cumple);
+                binding.cumpleTV.setText(cumpleBien);
+            }
+        });
         userViewModel.nombre.observe(requireActivity(), nombre -> {
             if (nombre != null) {
                 binding.nombreTextView.setText(nombre.split(" ")[0]);

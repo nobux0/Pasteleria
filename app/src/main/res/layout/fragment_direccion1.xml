@@ -21,7 +21,7 @@
             android:id="@+id/direccionInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Calle y numero de Miajadas" />
+            android:hint="@string/hint_direccion" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -39,9 +39,8 @@
             android:id="@+id/telefonoInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Telefono de contacto"
-            android:inputType="phone"
-            android:text="+34 " />
+            android:hint="@string/hint_telefono"
+            android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +57,7 @@
             android:id="@+id/nombrePedidoInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre de contacto" />
+            android:hint="@string/hint_nombre_contacto" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -66,8 +65,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Direccion del envio"
-        android:textSize="40dp"
+        android:text="@string/titulo_direccion_envio"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +79,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Continuar"
+        android:text="@string/continuar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

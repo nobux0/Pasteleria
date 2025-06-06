@@ -3,9 +3,47 @@
     <string name="app_name">Pastry Shop</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_web_client_id">144192975470-5io912gqrcneitl5vt575qtn9o1abfm2.apps.googleusercontent.com</string>
-
     <string name="inicio_sesion">Login</string>
     <string name="correo_hint">Email</string>
+    <string name="detalle_nombre_producto">Product name</string>
+    <string name="hint_direccion">Street and number in Miajadas</string>
+    <string name="hint_telefono">Contact phone number</string>
+    <string name="hint_nombre_contacto">Contact name</string>
+    <string name="titulo_direccion_envio">Shipping address</string>
+    <string name="direcciones_guardadas">Saved addresses</string>
+    <string name="ver_todo">see all</string>
+    <string name="imagen">Image</string>
+    <string name="anadir">add</string>
+    <string name="anadir_direccion">Add direction</string>
+    <string name="titulo_novedades">What\'s new</string>
+    <string name="subtitulo_novedades">Offers and News</string>
+    <string name="titulo_pasteleria">Vicente\'s Bakery</string>
+    <string name="ver_catalogo">View catalog 🍰</string>
+    <string name="donde_estamos">Where we are 📍</string>
+    <string name="pagar">Pay</string>
+    <string name="cumpleanos">Birthday</string>
+    <string name="telefono">Phone</string>
+    <string name="pedidos">Orders</string>
+
+    <string name="no_pedidos">No orders yet!</string>
+    <string name="pedido">Order ID</string>
+<string name="fecha">Date</string>
+    <string name="estado">State</string>
+    <string name="cambiar_idioma">Change language</string>
+    <string name="necesitas_ayuda">Need help?</string>
+    <string name="soporte_texto">
+    If you have any issues related to the use of the application, don\'t hesitate to contact our support team. We\'re here to help you.\n\n
+
+📞 Contact phone: 655064645\n\n
+
+✉️ Email: agarciam129@educarex.es \n\n
+
+We are available Monday to Friday, from 9:00 a.m. to 6:00 p.m. (local time).
+</string>
+
+    <string name="detalle_precio">Price</string>
+    <string name="anadir_al_carrito">Buy</string>
+    <string name="revisa_la_cesta">Review your cart</string>
     <string name="contrasena_hint">Password</string>
     <string name="iniciar_sesion">Log in</string>
     <string name="google_sign_in">Sign in with Google</string>

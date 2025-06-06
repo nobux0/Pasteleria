@@ -64,6 +64,15 @@ public class ReciboViewModel extends ViewModel {
         List<ProductoPedido> listaActual = new ArrayList<>(productosRecibo.getValue());
         listaActual.remove(producto);
         productosRecibo.setValue(listaActual);
+
+        for (int i = 0; i < listaActual.size(); i++) {
+            if (listaActual.get(i).getProductoId().equals(producto.getProductoId())) {
+                listaActual.remove(i);
+                break;
+            }
+        }
+        productosRecibo.setValue(listaActual);
+
     }
     public void vaciarRecibo() {
         productosRecibo.setValue(new ArrayList<>());
